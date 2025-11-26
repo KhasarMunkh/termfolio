@@ -59,13 +59,10 @@ RUN echo 'PS1="\[\e[32m\]visitor\[\e[0m\]@\[\e[34m\]portfolio\[\e[0m\]:\[\e[33m\
     echo 'export TERM=xterm-256color' >> /home/visitor/.bashrc && \
     echo 'export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git"' >> /home/visitor/.bashrc
 
-# Welcome message
-RUN echo 'echo ""' >> /home/visitor/.bashrc && \
-    echo 'echo "  Welcome to my portfolio terminal!"' >> /home/visitor/.bashrc && \
-    echo 'echo "  ─────────────────────────────────"' >> /home/visitor/.bashrc && \
-    echo 'echo "  Type '\''help'\'' for available commands"' >> /home/visitor/.bashrc && \
-    echo 'echo "  Explore my projects in ~/projects/"' >> /home/visitor/.bashrc && \
-    echo 'echo ""' >> /home/visitor/.bashrc
+# Welcome script with ANSI art
+COPY welcome.sh /usr/local/bin/welcome
+RUN chmod +x /usr/local/bin/welcome && \
+    echo 'welcome' >> /home/visitor/.bashrc
 
 # Create a custom help command
 RUN echo '#!/bin/bash' > /usr/local/bin/help && \
