@@ -13,7 +13,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
-      - PROJECTS_PATH=/app/projects
+      - PROJECTS_PATH=/home/ubuntu/termfolio/projects
     restart: unless-stopped
     # Run as root to access Docker socket (or use docker group)
     # For production, consider using Docker socket proxy for security
