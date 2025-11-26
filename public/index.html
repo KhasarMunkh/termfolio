@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Terminal Portfolio</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      background: #0d1117;
+      overflow: hidden;
+    }
+
+    #terminal-container {
+      height: 100vh;
+      width: 100vw;
+      padding: 8px;
+    }
+
+    #terminal {
+      height: 100%;
+      width: 100%;
+    }
+
+    /* Loading overlay */
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #0d1117;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #58a6ff;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      z-index: 1000;
+    }
+
+    #loading.hidden {
+      display: none;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #21262d;
+      border-top-color: #58a6ff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Disconnected overlay */
+    #disconnected {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(13, 17, 23, 0.95);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #f85149;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      z-index: 1000;
+    }
+
+    #disconnected.visible {
+      display: flex;
+    }
+
+    #reconnect-btn {
+      margin-top: 16px;
+      padding: 8px 24px;
+      background: #238636;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-family: inherit;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #reconnect-btn:hover {
+      background: #2ea043;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <div class="spinner"></div>
+    <div>Starting terminal session...</div>
+  </div>
+
+  <div id="disconnected">
+    <div>Connection lost</div>
+    <button id="reconnect-btn">Reconnect</button>
+  </div>
+
+  <div id="terminal-container">
+    <div id="terminal"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xterm-addon-web-links@0.9.0/lib/xterm-addon-web-links.min.js"></script>
+  <script>
+    const loadingEl = document.getElementById('loading');
+    const disconnectedEl = document.getElementById('disconnected');
+    const reconnectBtn = document.getElementById('reconnect-btn');
+
+    // Terminal configuration
+    const term = new Terminal({
+      cursorBlink: true,
+      fontSize: 14,
+      fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', Menlo, monospace",
+      theme: {
+        background: '#0d1117',
+        foreground: '#c9d1d9',
+        cursor: '#58a6ff',
+        cursorAccent: '#0d1117',
+        selectionBackground: '#264f78',
+        black: '#484f58',
+        red: '#ff7b72',
+        green: '#3fb950',
+        yellow: '#d29922',
+        blue: '#58a6ff',
+        magenta: '#bc8cff',
+        cyan: '#39c5cf',
+        white: '#b1bac4',
+        brightBlack: '#6e7681',
+        brightRed: '#ffa198',
+        brightGreen: '#56d364',
+        brightYellow: '#e3b341',
+        brightBlue: '#79c0ff',
+        brightMagenta: '#d2a8ff',
+        brightCyan: '#56d4dd',
+        brightWhite: '#f0f6fc',
+      },
+      allowProposedApi: true,
+    });
+
+    // Load addons
+    const fitAddon = new FitAddon.FitAddon();
+    const webLinksAddon = new WebLinksAddon.WebLinksAddon();
+
+    term.loadAddon(fitAddon);
+    term.loadAddon(webLinksAddon);
+
+    // Open terminal
+    term.open(document.getElementById('terminal'));
+    fitAddon.fit();
+
+    let ws = null;
+
+    function connect() {
+      loadingEl.classList.remove('hidden');
+      disconnectedEl.classList.remove('visible');
+
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      ws = new WebSocket(`${protocol}//${window.location.host}`);
+
+      ws.binaryType = 'arraybuffer';
+
+      ws.onopen = () => {
+        loadingEl.classList.add('hidden');
+        term.clear();
+
+        // Send initial size
+        sendResize();
+
+        term.focus();
+      };
+
+      ws.onmessage = (event) => {
+        const data = event.data instanceof ArrayBuffer
+          ? new TextDecoder().decode(event.data)
+          : event.data;
+        term.write(data);
+      };
+
+      ws.onclose = () => {
+        disconnectedEl.classList.add('visible');
+      };
+
+      ws.onerror = (err) => {
+        console.error('WebSocket error:', err);
+        disconnectedEl.classList.add('visible');
+      };
+    }
+
+    function sendResize() {
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        // Send resize escape sequence
+        const resizeSeq = `\x1b[8;${term.rows};${term.cols}t`;
+        ws.send(resizeSeq);
+      }
+    }
+
+    // Terminal input -> WebSocket
+    term.onData((data) => {
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(data);
+      }
+    });
+
+    // Handle resize
+    window.addEventListener('resize', () => {
+      fitAddon.fit();
+      sendResize();
+    });
+
+    term.onResize(() => {
+      sendResize();
+    });
+
+    // Reconnect button
+    reconnectBtn.addEventListener('click', () => {
+      connect();
+    });
+
+    // Initial connection
+    connect();
+  </script>
+</body>
+</html>

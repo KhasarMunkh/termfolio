@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount Docker socket to spawn containers
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Mount your projects directory
+      - ./projects:/app/projects:ro
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - PROJECTS_PATH=/app/projects
+    restart: unless-stopped
+    # Run as root to access Docker socket (or use docker group)
+    # For production, consider using Docker socket proxy for security
