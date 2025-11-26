@@ -62,7 +62,9 @@ RUN echo 'PS1="\[\e[32m\]visitor\[\e[0m\]@\[\e[34m\]portfolio\[\e[0m\]:\[\e[33m\
 # Welcome script with ANSI art
 COPY welcome.sh /usr/local/bin/welcome
 RUN chmod +x /usr/local/bin/welcome && \
-    echo 'welcome' >> /home/visitor/.bashrc
+    echo 'welcome' >> /home/visitor/.bashrc && \
+    echo 'welcome' >> /home/visitor/.bash_profile && \
+    echo 'source ~/.bashrc' >> /home/visitor/.bash_profile
 
 # Create a custom help command
 RUN echo '#!/bin/bash' > /usr/local/bin/help && \
@@ -136,5 +138,5 @@ RUN chown -R visitor:visitor /home/visitor
 USER visitor
 WORKDIR /home/visitor
 
-# Default command
-CMD ["/bin/bash"]
+# Default command (login shell to source .bash_profile)
+CMD ["/bin/bash", "-l"]
