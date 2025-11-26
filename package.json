@@ -2,6 +2,7 @@
   "name": "browser-terminal",
   "version": "1.0.0",
   "description": "Browser-based terminal with Docker containers",
+  "type": "module",
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
