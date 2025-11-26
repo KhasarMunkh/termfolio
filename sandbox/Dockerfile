@@ -25,20 +25,39 @@ RUN apk add --no-cache \
 # Create a non-root user
 RUN adduser -D -s /bin/bash visitor
 
-# Set up nvim config directory
-RUN mkdir -p /home/visitor/.config/nvim
+# Set up nvim config and plugin directories
+RUN mkdir -p /home/visitor/.config/nvim \
+    /home/visitor/.local/share/nvim/site/pack/plugins/start
 
-# Copy nvim config (you can customize this)
+# Pre-install neovim plugins (container has no network at runtime)
+WORKDIR /home/visitor/.local/share/nvim/site/pack/plugins/start
+
+# Colorscheme
+RUN git clone --depth 1 https://github.com/catppuccin/nvim.git catppuccin
+
+# Essential plugins
+RUN git clone --depth 1 https://github.com/echasnovski/mini.nvim.git
+RUN git clone --depth 1 https://github.com/stevearc/oil.nvim.git
+RUN git clone --depth 1 https://github.com/nvim-treesitter/nvim-treesitter.git
+
+# Pre-install treesitter parsers for common languages
+RUN nvim --headless -c "TSInstallSync lua javascript typescript python go c cpp html css json markdown bash" -c "qa" 2>/dev/null || true
+
+# Copy nvim config
 COPY nvim-config/init.lua /home/visitor/.config/nvim/init.lua
 
 # Create projects directory (will be mounted read-only)
 RUN mkdir -p /home/visitor/projects
 
+WORKDIR /home/visitor
+
 # Set up a nice bash prompt
 RUN echo 'PS1="\[\e[32m\]visitor\[\e[0m\]@\[\e[34m\]portfolio\[\e[0m\]:\[\e[33m\]\w\[\e[0m\]$ "' >> /home/visitor/.bashrc && \
     echo 'alias ll="ls -la"' >> /home/visitor/.bashrc && \
     echo 'alias vim="nvim"' >> /home/visitor/.bashrc && \
-    echo 'export TERM=xterm-256color' >> /home/visitor/.bashrc
+    echo 'alias cat="bat --style=plain"' >> /home/visitor/.bashrc && \
+    echo 'export TERM=xterm-256color' >> /home/visitor/.bashrc && \
+    echo 'export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git"' >> /home/visitor/.bashrc
 
 # Welcome message
 RUN echo 'echo ""' >> /home/visitor/.bashrc && \
@@ -58,7 +77,14 @@ RUN echo '#!/bin/bash' > /usr/local/bin/help && \
     echo 'echo "  skills     - View my technical skills"' >> /usr/local/bin/help && \
     echo 'echo "  contact    - Get my contact info"' >> /usr/local/bin/help && \
     echo 'echo ""' >> /usr/local/bin/help && \
-    echo 'echo "  Standard tools: nvim, git, ls, cat, tree, htop, etc."' >> /usr/local/bin/help && \
+    echo 'echo "  Neovim Keymaps:"' >> /usr/local/bin/help && \
+    echo 'echo "  ───────────────"' >> /usr/local/bin/help && \
+    echo 'echo "  <Space>e   - File explorer (Oil)"' >> /usr/local/bin/help && \
+    echo 'echo "  <Ctrl-p>   - Find files"' >> /usr/local/bin/help && \
+    echo 'echo "  <Space>fg  - Live grep"' >> /usr/local/bin/help && \
+    echo 'echo "  sa/sd/sr   - Surround add/delete/replace"' >> /usr/local/bin/help && \
+    echo 'echo ""' >> /usr/local/bin/help && \
+    echo 'echo "  Standard tools: nvim, git, ls, cat, tree, htop, rg, fd, bat, fzf"' >> /usr/local/bin/help && \
     echo 'echo ""' >> /usr/local/bin/help && \
     chmod +x /usr/local/bin/help
 
