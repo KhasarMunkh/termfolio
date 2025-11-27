@@ -59,7 +59,8 @@ RUN echo 'PS1="\[\e[32m\]visitor\[\e[0m\]@\[\e[34m\]portfolio\[\e[0m\]:\[\e[33m\
     echo 'export TERM=xterm-256color' >> /home/visitor/.bashrc && \
     echo 'export FZF_DEFAULT_COMMAND="fd --type f --hidden --exclude .git"' >> /home/visitor/.bashrc
 
-# Welcome script with ANSI art
+# Welcome script with profile picture
+COPY profile.txt /home/visitor/.config/profile.txt
 COPY welcome.sh /usr/local/bin/welcome
 RUN chmod +x /usr/local/bin/welcome && \
     echo 'welcome' >> /home/visitor/.bashrc && \
