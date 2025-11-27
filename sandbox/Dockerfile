@@ -40,7 +40,7 @@ RUN git clone --depth 1 https://github.com/echasnovski/mini.nvim.git
 RUN git clone --depth 1 https://github.com/stevearc/oil.nvim.git
 RUN git clone --depth 1 https://github.com/nvim-treesitter/nvim-treesitter.git
 
-# Pre-install treesitter parsers for common languages
+# Pre-install treesitter parsers
 RUN nvim --headless -c "TSInstallSync lua javascript typescript python go c cpp html css json markdown bash" -c "qa" 2>/dev/null || true
 
 # Copy nvim config
@@ -91,12 +91,19 @@ RUN echo '#!/bin/bash' > /usr/local/bin/help && \
 # Create portfolio commands
 RUN echo '#!/bin/bash' > /usr/local/bin/about && \
     echo 'echo ""' >> /usr/local/bin/about && \
-    echo 'echo "  About Me"' >> /usr/local/bin/about && \
-    echo 'echo "  ────────"' >> /usr/local/bin/about && \
-    echo 'echo "  [Your name here]"' >> /usr/local/bin/about && \
-    echo 'echo "  [Your title/role]"' >> /usr/local/bin/about && \
+    echo 'echo "  \033[38;2;198;160;246mAbout Me\033[0m"' >> /usr/local/bin/about && \
+    echo 'echo "  ════════════════════════════════════════"' >> /usr/local/bin/about && \
     echo 'echo ""' >> /usr/local/bin/about && \
-    echo 'echo "  [Your bio here]"' >> /usr/local/bin/about && \
+    echo 'echo "  I'\''m Khasar, a Computer Science student and software"' >> /usr/local/bin/about && \
+    echo 'echo "  developer who loves building things for the web."' >> /usr/local/bin/about && \
+    echo 'echo ""' >> /usr/local/bin/about && \
+    echo 'echo "  From full-stack apps to experimental side projects,"' >> /usr/local/bin/about && \
+    echo 'echo "  I'\''m constantly exploring new technologies and pushing"' >> /usr/local/bin/about && \
+    echo 'echo "  my skills forward."' >> /usr/local/bin/about && \
+    echo 'echo ""' >> /usr/local/bin/about && \
+    echo 'echo "  This portfolio is a space to showcase my work,"' >> /usr/local/bin/about && \
+    echo 'echo "  document my growth, and share what I'\''m learning"' >> /usr/local/bin/about && \
+    echo 'echo "  as I continue shaping my career in software engineering."' >> /usr/local/bin/about && \
     echo 'echo ""' >> /usr/local/bin/about && \
     chmod +x /usr/local/bin/about
 
@@ -113,22 +120,35 @@ RUN echo '#!/bin/bash' > /usr/local/bin/projects && \
 
 RUN echo '#!/bin/bash' > /usr/local/bin/skills && \
     echo 'echo ""' >> /usr/local/bin/skills && \
-    echo 'echo "  Technical Skills"' >> /usr/local/bin/skills && \
-    echo 'echo "  ────────────────"' >> /usr/local/bin/skills && \
-    echo 'echo "  Languages:  [Your languages]"' >> /usr/local/bin/skills && \
-    echo 'echo "  Frontend:   [Your frontend skills]"' >> /usr/local/bin/skills && \
-    echo 'echo "  Backend:    [Your backend skills]"' >> /usr/local/bin/skills && \
-    echo 'echo "  Tools:      [Your tools]"' >> /usr/local/bin/skills && \
+    echo 'echo "  \033[38;2;198;160;246mTechnical Skills\033[0m"' >> /usr/local/bin/skills && \
+    echo 'echo "  ════════════════════════════════════════"' >> /usr/local/bin/skills && \
+    echo 'echo ""' >> /usr/local/bin/skills && \
+    echo 'echo "  \033[38;2;138;173;244mLanguages\033[0m"' >> /usr/local/bin/skills && \
+    echo 'echo "  ────────────────────────────────────────"' >> /usr/local/bin/skills && \
+    echo 'echo "  TypeScript · JavaScript · Go · Python · C"' >> /usr/local/bin/skills && \
+    echo 'echo ""' >> /usr/local/bin/skills && \
+    echo 'echo "  \033[38;2;166;218;149mFrontend\033[0m"' >> /usr/local/bin/skills && \
+    echo 'echo "  ────────────────────────────────────────"' >> /usr/local/bin/skills && \
+    echo 'echo "  React · Next.js · Tailwind CSS · HTML/CSS"' >> /usr/local/bin/skills && \
+    echo 'echo ""' >> /usr/local/bin/skills && \
+    echo 'echo "  \033[38;2;245;169;127mBackend\033[0m"' >> /usr/local/bin/skills && \
+    echo 'echo "  ────────────────────────────────────────"' >> /usr/local/bin/skills && \
+    echo 'echo "  Node.js · Express · PostgreSQL · REST APIs"' >> /usr/local/bin/skills && \
+    echo 'echo ""' >> /usr/local/bin/skills && \
+    echo 'echo "  \033[38;2;139;213;202mDevOps & Tools\033[0m"' >> /usr/local/bin/skills && \
+    echo 'echo "  ────────────────────────────────────────"' >> /usr/local/bin/skills && \
+    echo 'echo "  Docker · Git · AWS · Linux · Neovim · Terraform"' >> /usr/local/bin/skills && \
     echo 'echo ""' >> /usr/local/bin/skills && \
     chmod +x /usr/local/bin/skills
 
 RUN echo '#!/bin/bash' > /usr/local/bin/contact && \
     echo 'echo ""' >> /usr/local/bin/contact && \
-    echo 'echo "  Contact Me"' >> /usr/local/bin/contact && \
-    echo 'echo "  ──────────"' >> /usr/local/bin/contact && \
-    echo 'echo "  Email:    khasar.munkherdene@gmail.com"' >> /usr/local/bin/contact && \
-    echo 'echo "  GitHub:   https://github.com/KhasarMunkh"' >> /usr/local/bin/contact && \
-    echo 'echo "  LinkedIn: https://www.linkedin.com/in/khasarmunkh/"' >> /usr/local/bin/contact && \
+    echo 'echo "  \033[38;2;198;160;246mContact Me\033[0m"' >> /usr/local/bin/contact && \
+    echo 'echo "  ════════════════════════════════════════"' >> /usr/local/bin/contact && \
+    echo 'echo ""' >> /usr/local/bin/contact && \
+    echo 'echo "  \033[38;2;165;173;203mEmail\033[0m     \033[38;2;138;173;244mkhasar.munkherdene@gmail.com\033[0m"' >> /usr/local/bin/contact && \
+    echo 'echo "  \033[38;2;165;173;203mGitHub\033[0m    \033[38;2;166;218;149mhttps://github.com/KhasarMunkh\033[0m"' >> /usr/local/bin/contact && \
+    echo 'echo "  \033[38;2;165;173;203mLinkedIn\033[0m  \033[38;2;139;213;202mhttps://www.linkedin.com/in/khasarmunkh/\033[0m"' >> /usr/local/bin/contact && \
     echo 'echo ""' >> /usr/local/bin/contact && \
     chmod +x /usr/local/bin/contact
 

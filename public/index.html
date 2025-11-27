@@ -3,9 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terminal Portfolio</title>
+  <title>Khasar Munkh | Software Developer</title>
+  <meta name="description" content="Khasar Munkh's interactive terminal portfolio. Explore projects, skills, and connect.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css">
   <style>
+    /* Catppuccin Macchiato */
+    :root {
+      --ctp-rosewater: #f4dbd6;
+      --ctp-flamingo: #f0c6c6;
+      --ctp-pink: #f5bde6;
+      --ctp-mauve: #c6a0f6;
+      --ctp-red: #ed8796;
+      --ctp-maroon: #ee99a0;
+      --ctp-peach: #f5a97f;
+      --ctp-yellow: #eed49f;
+      --ctp-green: #a6da95;
+      --ctp-teal: #8bd5ca;
+      --ctp-sky: #91d7e3;
+      --ctp-sapphire: #7dc4e4;
+      --ctp-blue: #8aadf4;
+      --ctp-lavender: #b7bdf8;
+      --ctp-text: #cad3f5;
+      --ctp-subtext1: #b8c0e0;
+      --ctp-subtext0: #a5adcb;
+      --ctp-overlay2: #939ab7;
+      --ctp-overlay1: #8087a2;
+      --ctp-overlay0: #6e738d;
+      --ctp-surface2: #5b6078;
+      --ctp-surface1: #494d64;
+      --ctp-surface0: #363a4f;
+      --ctp-base: #24273a;
+      --ctp-mantle: #1e2030;
+      --ctp-crust: #181926;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -14,7 +48,7 @@
 
     html, body {
       height: 100%;
-      background: #0d1117;
+      background: var(--ctp-base);
       overflow: hidden;
     }
 
@@ -36,12 +70,12 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: #0d1117;
+      background: var(--ctp-base);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: #58a6ff;
+      color: var(--ctp-blue);
       font-family: 'JetBrains Mono', 'Fira Code', monospace;
       z-index: 1000;
     }
@@ -53,8 +87,8 @@
     .spinner {
       width: 40px;
       height: 40px;
-      border: 3px solid #21262d;
-      border-top-color: #58a6ff;
+      border: 3px solid var(--ctp-surface0);
+      border-top-color: var(--ctp-blue);
       border-radius: 50%;
       animation: spin 1s linear infinite;
       margin-bottom: 16px;
@@ -71,12 +105,12 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(13, 17, 23, 0.95);
+      background: rgba(36, 39, 58, 0.95);
       display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: #f85149;
+      color: var(--ctp-red);
       font-family: 'JetBrains Mono', 'Fira Code', monospace;
       z-index: 1000;
     }
@@ -88,10 +122,10 @@
     #reconnect-btn {
       margin-top: 16px;
       padding: 8px 24px;
-      background: #238636;
+      background: var(--ctp-green);
       border: none;
       border-radius: 6px;
-      color: white;
+      color: var(--ctp-base);
       font-family: inherit;
       font-size: 14px;
       cursor: pointer;
@@ -99,7 +133,7 @@
     }
 
     #reconnect-btn:hover {
-      background: #2ea043;
+      background: var(--ctp-teal);
     }
   </style>
 </head>
@@ -122,6 +156,36 @@
   <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/xterm-addon-web-links@0.9.0/lib/xterm-addon-web-links.min.js"></script>
   <script>
+    // Catppuccin Macchiato colors
+    const catppuccin = {
+      rosewater: '#f4dbd6',
+      flamingo: '#f0c6c6',
+      pink: '#f5bde6',
+      mauve: '#c6a0f6',
+      red: '#ed8796',
+      maroon: '#ee99a0',
+      peach: '#f5a97f',
+      yellow: '#eed49f',
+      green: '#a6da95',
+      teal: '#8bd5ca',
+      sky: '#91d7e3',
+      sapphire: '#7dc4e4',
+      blue: '#8aadf4',
+      lavender: '#b7bdf8',
+      text: '#cad3f5',
+      subtext1: '#b8c0e0',
+      subtext0: '#a5adcb',
+      overlay2: '#939ab7',
+      overlay1: '#8087a2',
+      overlay0: '#6e738d',
+      surface2: '#5b6078',
+      surface1: '#494d64',
+      surface0: '#363a4f',
+      base: '#24273a',
+      mantle: '#1e2030',
+      crust: '#181926',
+    };
+
     const loadingEl = document.getElementById('loading');
     const disconnectedEl = document.getElementById('disconnected');
     const reconnectBtn = document.getElementById('reconnect-btn');
@@ -132,27 +196,27 @@
       fontSize: 14,
       fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', Menlo, monospace",
       theme: {
-        background: '#0d1117',
-        foreground: '#c9d1d9',
-        cursor: '#58a6ff',
-        cursorAccent: '#0d1117',
-        selectionBackground: '#264f78',
-        black: '#484f58',
-        red: '#ff7b72',
-        green: '#3fb950',
-        yellow: '#d29922',
-        blue: '#58a6ff',
-        magenta: '#bc8cff',
-        cyan: '#39c5cf',
-        white: '#b1bac4',
-        brightBlack: '#6e7681',
-        brightRed: '#ffa198',
-        brightGreen: '#56d364',
-        brightYellow: '#e3b341',
-        brightBlue: '#79c0ff',
-        brightMagenta: '#d2a8ff',
-        brightCyan: '#56d4dd',
-        brightWhite: '#f0f6fc',
+        background: catppuccin.base,
+        foreground: catppuccin.text,
+        cursor: catppuccin.rosewater,
+        cursorAccent: catppuccin.base,
+        selectionBackground: catppuccin.surface2,
+        black: catppuccin.surface1,
+        red: catppuccin.red,
+        green: catppuccin.green,
+        yellow: catppuccin.yellow,
+        blue: catppuccin.blue,
+        magenta: catppuccin.pink,
+        cyan: catppuccin.teal,
+        white: catppuccin.subtext1,
+        brightBlack: catppuccin.surface2,
+        brightRed: catppuccin.red,
+        brightGreen: catppuccin.green,
+        brightYellow: catppuccin.yellow,
+        brightBlue: catppuccin.blue,
+        brightMagenta: catppuccin.pink,
+        brightCyan: catppuccin.teal,
+        brightWhite: catppuccin.text,
       },
       allowProposedApi: true,
     });
