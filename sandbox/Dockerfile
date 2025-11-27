@@ -91,7 +91,7 @@ RUN echo '#!/bin/bash' > /usr/local/bin/help && \
 # Create portfolio commands
 RUN echo '#!/bin/bash' > /usr/local/bin/about && \
     echo 'echo ""' >> /usr/local/bin/about && \
-    echo 'echo "  \033[38;2;198;160;246mAbout Me\033[0m"' >> /usr/local/bin/about && \
+    echo 'echo -e "  \033[38;2;198;160;246mAbout Me\033[0m"' >> /usr/local/bin/about && \
     echo 'echo "  ════════════════════════════════════════"' >> /usr/local/bin/about && \
     echo 'echo ""' >> /usr/local/bin/about && \
     echo 'echo "  I'\''m Khasar, a Computer Science student and software"' >> /usr/local/bin/about && \
@@ -120,22 +120,22 @@ RUN echo '#!/bin/bash' > /usr/local/bin/projects && \
 
 RUN echo '#!/bin/bash' > /usr/local/bin/skills && \
     echo 'echo ""' >> /usr/local/bin/skills && \
-    echo 'echo "  \033[38;2;198;160;246mTechnical Skills\033[0m"' >> /usr/local/bin/skills && \
+    echo 'echo -e "  \033[38;2;198;160;246mTechnical Skills\033[0m"' >> /usr/local/bin/skills && \
     echo 'echo "  ════════════════════════════════════════"' >> /usr/local/bin/skills && \
     echo 'echo ""' >> /usr/local/bin/skills && \
-    echo 'echo "  \033[38;2;138;173;244mLanguages\033[0m"' >> /usr/local/bin/skills && \
+    echo 'echo -e "  \033[38;2;138;173;244mLanguages\033[0m"' >> /usr/local/bin/skills && \
     echo 'echo "  ────────────────────────────────────────"' >> /usr/local/bin/skills && \
     echo 'echo "  TypeScript · JavaScript · Go · Python · C"' >> /usr/local/bin/skills && \
     echo 'echo ""' >> /usr/local/bin/skills && \
-    echo 'echo "  \033[38;2;166;218;149mFrontend\033[0m"' >> /usr/local/bin/skills && \
+    echo 'echo -e "  \033[38;2;166;218;149mFrontend\033[0m"' >> /usr/local/bin/skills && \
     echo 'echo "  ────────────────────────────────────────"' >> /usr/local/bin/skills && \
     echo 'echo "  React · Next.js · Tailwind CSS · HTML/CSS"' >> /usr/local/bin/skills && \
     echo 'echo ""' >> /usr/local/bin/skills && \
-    echo 'echo "  \033[38;2;245;169;127mBackend\033[0m"' >> /usr/local/bin/skills && \
+    echo 'echo -e "  \033[38;2;245;169;127mBackend\033[0m"' >> /usr/local/bin/skills && \
     echo 'echo "  ────────────────────────────────────────"' >> /usr/local/bin/skills && \
     echo 'echo "  Node.js · Express · PostgreSQL · REST APIs"' >> /usr/local/bin/skills && \
     echo 'echo ""' >> /usr/local/bin/skills && \
-    echo 'echo "  \033[38;2;139;213;202mDevOps & Tools\033[0m"' >> /usr/local/bin/skills && \
+    echo 'echo -e "  \033[38;2;139;213;202mDevOps & Tools\033[0m"' >> /usr/local/bin/skills && \
     echo 'echo "  ────────────────────────────────────────"' >> /usr/local/bin/skills && \
     echo 'echo "  Docker · Git · AWS · Linux · Neovim · Terraform"' >> /usr/local/bin/skills && \
     echo 'echo ""' >> /usr/local/bin/skills && \
@@ -143,12 +143,12 @@ RUN echo '#!/bin/bash' > /usr/local/bin/skills && \
 
 RUN echo '#!/bin/bash' > /usr/local/bin/contact && \
     echo 'echo ""' >> /usr/local/bin/contact && \
-    echo 'echo "  \033[38;2;198;160;246mContact Me\033[0m"' >> /usr/local/bin/contact && \
+    echo 'echo -e "  \033[38;2;198;160;246mContact Me\033[0m"' >> /usr/local/bin/contact && \
     echo 'echo "  ════════════════════════════════════════"' >> /usr/local/bin/contact && \
     echo 'echo ""' >> /usr/local/bin/contact && \
-    echo 'echo "  \033[38;2;165;173;203mEmail\033[0m     \033[38;2;138;173;244mkhasar.munkherdene@gmail.com\033[0m"' >> /usr/local/bin/contact && \
-    echo 'echo "  \033[38;2;165;173;203mGitHub\033[0m    \033[38;2;166;218;149mhttps://github.com/KhasarMunkh\033[0m"' >> /usr/local/bin/contact && \
-    echo 'echo "  \033[38;2;165;173;203mLinkedIn\033[0m  \033[38;2;139;213;202mhttps://www.linkedin.com/in/khasarmunkh/\033[0m"' >> /usr/local/bin/contact && \
+    echo 'echo -e "  \033[38;2;165;173;203mEmail\033[0m     \033[38;2;138;173;244mkhasar.munkherdene@gmail.com\033[0m"' >> /usr/local/bin/contact && \
+    echo 'echo -e "  \033[38;2;165;173;203mGitHub\033[0m    \033[38;2;166;218;149mhttps://github.com/KhasarMunkh\033[0m"' >> /usr/local/bin/contact && \
+    echo 'echo -e "  \033[38;2;165;173;203mLinkedIn\033[0m  \033[38;2;139;213;202mhttps://www.linkedin.com/in/khasarmunkh/\033[0m"' >> /usr/local/bin/contact && \
     echo 'echo ""' >> /usr/local/bin/contact && \
     chmod +x /usr/local/bin/contact
 
