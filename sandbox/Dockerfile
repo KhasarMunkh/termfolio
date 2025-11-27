@@ -126,9 +126,9 @@ RUN echo '#!/bin/bash' > /usr/local/bin/contact && \
     echo 'echo ""' >> /usr/local/bin/contact && \
     echo 'echo "  Contact Me"' >> /usr/local/bin/contact && \
     echo 'echo "  ──────────"' >> /usr/local/bin/contact && \
-    echo 'echo "  Email:    [your@email.com]"' >> /usr/local/bin/contact && \
-    echo 'echo "  GitHub:   [github.com/yourusername]"' >> /usr/local/bin/contact && \
-    echo 'echo "  LinkedIn: [linkedin.com/in/yourprofile]"' >> /usr/local/bin/contact && \
+    echo 'echo "  Email:    khasar.munkherdene@gmail.com"' >> /usr/local/bin/contact && \
+    echo 'echo "  GitHub:   https://github.com/KhasarMunkh"' >> /usr/local/bin/contact && \
+    echo 'echo "  LinkedIn: https://www.linkedin.com/in/khasarmunkh/"' >> /usr/local/bin/contact && \
     echo 'echo ""' >> /usr/local/bin/contact && \
     chmod +x /usr/local/bin/contact
 
