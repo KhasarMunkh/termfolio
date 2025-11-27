@@ -1,307 +1,323 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Khasar Munkh | Software Developer</title>
-  <meta name="description" content="Khasar Munkh's interactive terminal portfolio. Explore projects, skills, and connect.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css">
-  <style>
-    /* Catppuccin Macchiato */
-    :root {
-      --ctp-rosewater: #f4dbd6;
-      --ctp-flamingo: #f0c6c6;
-      --ctp-pink: #f5bde6;
-      --ctp-mauve: #c6a0f6;
-      --ctp-red: #ed8796;
-      --ctp-maroon: #ee99a0;
-      --ctp-peach: #f5a97f;
-      --ctp-yellow: #eed49f;
-      --ctp-green: #a6da95;
-      --ctp-teal: #8bd5ca;
-      --ctp-sky: #91d7e3;
-      --ctp-sapphire: #7dc4e4;
-      --ctp-blue: #8aadf4;
-      --ctp-lavender: #b7bdf8;
-      --ctp-text: #cad3f5;
-      --ctp-subtext1: #b8c0e0;
-      --ctp-subtext0: #a5adcb;
-      --ctp-overlay2: #939ab7;
-      --ctp-overlay1: #8087a2;
-      --ctp-overlay0: #6e738d;
-      --ctp-surface2: #5b6078;
-      --ctp-surface1: #494d64;
-      --ctp-surface0: #363a4f;
-      --ctp-base: #18182C;
-      --ctp-mantle: #1e2030;
-      --ctp-crust: #181926;
-    }
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Khasar Munkh | Software Developer</title>
+        <meta
+            name="description"
+            content="Khasar Munkh's interactive terminal portfolio. Explore projects, skills, and connect."
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css"
+        />
+        <style>
+            /* Catppuccin Macchiato */
+            :root {
+                --ctp-rosewater: #f4dbd6;
+                --ctp-flamingo: #f0c6c6;
+                --ctp-pink: #f5bde6;
+                --ctp-mauve: #c6a0f6;
+                --ctp-red: #ed8796;
+                --ctp-maroon: #ee99a0;
+                --ctp-peach: #f5a97f;
+                --ctp-yellow: #eed49f;
+                --ctp-green: #a6da95;
+                --ctp-teal: #8bd5ca;
+                --ctp-sky: #91d7e3;
+                --ctp-sapphire: #7dc4e4;
+                --ctp-blue: #8aadf4;
+                --ctp-lavender: #b7bdf8;
+                --ctp-text: #cad3f5;
+                --ctp-subtext1: #b8c0e0;
+                --ctp-subtext0: #a5adcb;
+                --ctp-overlay2: #939ab7;
+                --ctp-overlay1: #8087a2;
+                --ctp-overlay0: #6e738d;
+                --ctp-surface2: #5b6078;
+                --ctp-surface1: #494d64;
+                --ctp-surface0: #363a4f;
+                --ctp-base: #18182c;
+                --ctp-mantle: #1e2030;
+                --ctp-crust: #181926;
+            }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
 
-    html, body {
-      height: 100%;
-      background: var(--ctp-base);
-      overflow: hidden;
-    }
+            html,
+            body {
+                height: 100%;
+                background: var(--ctp-base);
+                overflow: hidden;
+            }
 
-    #terminal-container {
-      height: 100vh;
-      width: 100vw;
-      padding: 8px;
-    }
+            #terminal-container {
+                height: 100vh;
+                width: 100vw;
+                padding: 8px;
+            }
 
-    #terminal {
-      height: 100%;
-      width: 100%;
-    }
+            #terminal {
+                height: 100%;
+                width: 100%;
+            }
 
-    /* Loading overlay */
-    #loading {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: var(--ctp-base);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--ctp-blue);
-      font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      z-index: 1000;
-    }
+            /* Loading overlay */
+            #loading {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: var(--ctp-base);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: var(--ctp-blue);
+                font-family: "JetBrains Mono", "Fira Code", monospace;
+                z-index: 1000;
+            }
 
-    #loading.hidden {
-      display: none;
-    }
+            #loading.hidden {
+                display: none;
+            }
 
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid var(--ctp-surface0);
-      border-top-color: var(--ctp-blue);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 16px;
-    }
+            .spinner {
+                width: 40px;
+                height: 40px;
+                border: 3px solid var(--ctp-surface0);
+                border-top-color: var(--ctp-blue);
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+                margin-bottom: 16px;
+            }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
 
-    /* Disconnected overlay */
-    #disconnected {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(24, 24, 44, 0.95);
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: var(--ctp-red);
-      font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      z-index: 1000;
-    }
+            /* Disconnected overlay */
+            #disconnected {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(24, 24, 44, 0.95);
+                display: none;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: var(--ctp-red);
+                font-family: "JetBrains Mono", "Fira Code", monospace;
+                z-index: 1000;
+            }
 
-    #disconnected.visible {
-      display: flex;
-    }
+            #disconnected.visible {
+                display: flex;
+            }
 
-    #reconnect-btn {
-      margin-top: 16px;
-      padding: 8px 24px;
-      background: var(--ctp-green);
-      border: none;
-      border-radius: 6px;
-      color: var(--ctp-base);
-      font-family: inherit;
-      font-size: 14px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
+            #reconnect-btn {
+                margin-top: 16px;
+                padding: 8px 24px;
+                background: var(--ctp-green);
+                border: none;
+                border-radius: 6px;
+                color: var(--ctp-base);
+                font-family: inherit;
+                font-size: 14px;
+                cursor: pointer;
+                transition: background 0.2s;
+            }
 
-    #reconnect-btn:hover {
-      background: var(--ctp-teal);
-    }
-  </style>
-</head>
-<body>
-  <div id="loading">
-    <div class="spinner"></div>
-    <div>Starting terminal session...</div>
-  </div>
+            #reconnect-btn:hover {
+                background: var(--ctp-teal);
+            }
+        </style>
+    </head>
+    <body>
+        <div id="loading">
+            <div class="spinner"></div>
+            <div>Starting terminal session...</div>
+        </div>
 
-  <div id="disconnected">
-    <div>Connection lost</div>
-    <button id="reconnect-btn">Reconnect</button>
-  </div>
+        <div id="disconnected">
+            <div>Connection lost</div>
+            <button id="reconnect-btn">Reconnect</button>
+        </div>
 
-  <div id="terminal-container">
-    <div id="terminal"></div>
-  </div>
+        <div id="terminal-container">
+            <div id="terminal"></div>
+        </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xterm-addon-web-links@0.9.0/lib/xterm-addon-web-links.min.js"></script>
-  <script>
-    // Catppuccin Macchiato colors
-    const catppuccin = {
-      rosewater: '#f4dbd6',
-      flamingo: '#f0c6c6',
-      pink: '#f5bde6',
-      mauve: '#c6a0f6',
-      red: '#ed8796',
-      maroon: '#ee99a0',
-      peach: '#f5a97f',
-      yellow: '#eed49f',
-      green: '#a6da95',
-      teal: '#8bd5ca',
-      sky: '#91d7e3',
-      sapphire: '#7dc4e4',
-      blue: '#8aadf4',
-      lavender: '#b7bdf8',
-      text: '#cad3f5',
-      subtext1: '#b8c0e0',
-      subtext0: '#a5adcb',
-      overlay2: '#939ab7',
-      overlay1: '#8087a2',
-      overlay0: '#6e738d',
-      surface2: '#5b6078',
-      surface1: '#494d64',
-      surface0: '#363a4f',
-      base: '#18182C',
-      mantle: '#1e2030',
-      crust: '#181926',
-    };
+        <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/xterm-addon-fit@0.8.0/lib/xterm-addon-fit.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/xterm-addon-web-links@0.9.0/lib/xterm-addon-web-links.min.js"></script>
+        <script>
+            // Catppuccin Macchiato colors
+            const catppuccin = {
+                rosewater: "#f4dbd6",
+                flamingo: "#f0c6c6",
+                pink: "#f5bde6",
+                mauve: "#c6a0f6",
+                red: "#ed8796",
+                maroon: "#ee99a0",
+                peach: "#f5a97f",
+                yellow: "#eed49f",
+                green: "#a6da95",
+                teal: "#8bd5ca",
+                sky: "#91d7e3",
+                sapphire: "#7dc4e4",
+                blue: "#8aadf4",
+                lavender: "#b7bdf8",
+                text: "#cad3f5",
+                subtext1: "#b8c0e0",
+                subtext0: "#a5adcb",
+                overlay2: "#939ab7",
+                overlay1: "#8087a2",
+                overlay0: "#6e738d",
+                surface2: "#5b6078",
+                surface1: "#494d64",
+                surface0: "#363a4f",
+                base: "#18182C",
+                mantle: "#1e2030",
+                crust: "#181926",
+            };
 
-    const loadingEl = document.getElementById('loading');
-    const disconnectedEl = document.getElementById('disconnected');
-    const reconnectBtn = document.getElementById('reconnect-btn');
+            const loadingEl = document.getElementById("loading");
+            const disconnectedEl = document.getElementById("disconnected");
+            const reconnectBtn = document.getElementById("reconnect-btn");
 
-    // Terminal configuration
-    const term = new Terminal({
-      cursorBlink: true,
-      fontSize: 14,
-      fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', Menlo, monospace",
-      theme: {
-        background: catppuccin.base,
-        foreground: catppuccin.text,
-        cursor: catppuccin.rosewater,
-        cursorAccent: catppuccin.base,
-        selectionBackground: catppuccin.surface2,
-        black: catppuccin.surface1,
-        red: catppuccin.red,
-        green: catppuccin.green,
-        yellow: catppuccin.yellow,
-        blue: catppuccin.blue,
-        magenta: catppuccin.pink,
-        cyan: catppuccin.teal,
-        white: catppuccin.subtext1,
-        brightBlack: catppuccin.surface2,
-        brightRed: catppuccin.red,
-        brightGreen: catppuccin.green,
-        brightYellow: catppuccin.yellow,
-        brightBlue: catppuccin.blue,
-        brightMagenta: catppuccin.pink,
-        brightCyan: catppuccin.teal,
-        brightWhite: catppuccin.text,
-      },
-      allowProposedApi: true,
-    });
+            // Terminal configuration
+            const term = new Terminal({
+                cursorBlink: true,
+                fontSize: 14,
+                fontFamily:
+                    "'JetBrains Mono', 'Fira Code', 'Cascadia Code', Menlo, monospace",
+                theme: {
+                    background: "transparent",
+                    foreground: catppuccin.text,
+                    cursor: catppuccin.rosewater,
+                    cursorAccent: catppuccin.base,
+                    selectionBackground: catppuccin.surface2,
+                    black: catppuccin.surface1,
+                    red: catppuccin.red,
+                    green: catppuccin.green,
+                    yellow: catppuccin.yellow,
+                    blue: catppuccin.blue,
+                    magenta: catppuccin.pink,
+                    cyan: catppuccin.teal,
+                    white: catppuccin.subtext1,
+                    brightBlack: catppuccin.surface2,
+                    brightRed: catppuccin.red,
+                    brightGreen: catppuccin.green,
+                    brightYellow: catppuccin.yellow,
+                    brightBlue: catppuccin.blue,
+                    brightMagenta: catppuccin.pink,
+                    brightCyan: catppuccin.teal,
+                    brightWhite: catppuccin.text,
+                },
+                allowProposedApi: true,
+            });
 
-    // Load addons
-    const fitAddon = new FitAddon.FitAddon();
-    const webLinksAddon = new WebLinksAddon.WebLinksAddon();
+            // Load addons
+            const fitAddon = new FitAddon.FitAddon();
+            const webLinksAddon = new WebLinksAddon.WebLinksAddon();
 
-    term.loadAddon(fitAddon);
-    term.loadAddon(webLinksAddon);
+            term.loadAddon(fitAddon);
+            term.loadAddon(webLinksAddon);
 
-    // Open terminal
-    term.open(document.getElementById('terminal'));
-    fitAddon.fit();
+            // Open terminal
+            term.open(document.getElementById("terminal"));
+            fitAddon.fit();
 
-    let ws = null;
+            let ws = null;
 
-    function connect() {
-      loadingEl.classList.remove('hidden');
-      disconnectedEl.classList.remove('visible');
+            function connect() {
+                loadingEl.classList.remove("hidden");
+                disconnectedEl.classList.remove("visible");
 
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      ws = new WebSocket(`${protocol}//${window.location.host}`);
+                const protocol =
+                    window.location.protocol === "https:" ? "wss:" : "ws:";
+                ws = new WebSocket(`${protocol}//${window.location.host}`);
 
-      ws.binaryType = 'arraybuffer';
+                ws.binaryType = "arraybuffer";
 
-      ws.onopen = () => {
-        loadingEl.classList.add('hidden');
-        term.clear();
+                ws.onopen = () => {
+                    loadingEl.classList.add("hidden");
+                    term.clear(); // Clear any previous content
+                    sendResize(); // Send terminal size first
 
-        // Send initial size
-        sendResize();
+                    // Signal server we're ready to receive output
+                    ws.send("\x1b[?ready");
 
-        term.focus();
-      };
+                    term.focus();
+                };
 
-      ws.onmessage = (event) => {
-        const data = event.data instanceof ArrayBuffer
-          ? new TextDecoder().decode(event.data)
-          : event.data;
-        term.write(data);
-      };
+                ws.onmessage = (event) => {
+                    const data =
+                        event.data instanceof ArrayBuffer
+                            ? new TextDecoder().decode(event.data)
+                            : event.data;
+                    term.write(data);
+                };
 
-      ws.onclose = () => {
-        disconnectedEl.classList.add('visible');
-      };
+                ws.onclose = () => {
+                    disconnectedEl.classList.add("visible");
+                };
 
-      ws.onerror = (err) => {
-        console.error('WebSocket error:', err);
-        disconnectedEl.classList.add('visible');
-      };
-    }
+                ws.onerror = (err) => {
+                    console.error("WebSocket error:", err);
+                    disconnectedEl.classList.add("visible");
+                };
+            }
 
-    function sendResize() {
-      if (ws && ws.readyState === WebSocket.OPEN) {
-        // Send resize escape sequence
-        const resizeSeq = `\x1b[8;${term.rows};${term.cols}t`;
-        ws.send(resizeSeq);
-      }
-    }
+            function sendResize() {
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    // Send resize escape sequence
+                    const resizeSeq = `\x1b[8;${term.rows};${term.cols}t`;
+                    ws.send(resizeSeq);
+                }
+            }
 
-    // Terminal input -> WebSocket
-    term.onData((data) => {
-      if (ws && ws.readyState === WebSocket.OPEN) {
-        ws.send(data);
-      }
-    });
+            // Terminal input -> WebSocket
+            term.onData((data) => {
+                if (ws && ws.readyState === WebSocket.OPEN) {
+                    ws.send(data);
+                }
+            });
 
-    // Handle resize
-    window.addEventListener('resize', () => {
-      fitAddon.fit();
-      sendResize();
-    });
+            // Handle resize
+            window.addEventListener("resize", () => {
+                fitAddon.fit();
+                sendResize();
+            });
 
-    term.onResize(() => {
-      sendResize();
-    });
+            term.onResize(() => {
+                sendResize();
+            });
 
-    // Reconnect button
-    reconnectBtn.addEventListener('click', () => {
-      connect();
-    });
+            // Reconnect button
+            reconnectBtn.addEventListener("click", () => {
+                connect();
+            });
 
-    // Initial connection
-    connect();
-  </script>
-</body>
+            // Initial connection
+            connect();
+        </script>
+    </body>
 </html>

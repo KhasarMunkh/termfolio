@@ -113,24 +113,27 @@ Or push to main branch if you set up GitHub Actions.
 
 ## Cost
 
-| Resource | Approximate Cost |
-|----------|------------------|
-| EC2 t3.small | ~$15/month |
-| EC2 t3.micro (free tier) | $0 first year |
-| Elastic IP (attached) | $0 |
-| Data transfer | ~$0-2/month |
+| Resource                 | Approximate Cost |
+| ------------------------ | ---------------- |
+| EC2 t3.small             | ~$15/month       |
+| EC2 t3.micro (free tier) | $0 first year    |
+| Elastic IP (attached)    | $0               |
+| Data transfer            | ~$0-2/month      |
 
 ## Troubleshooting
 
 **Can't SSH in?**
+
 - Check security group allows your IP on port 22
 - Verify your SSH key is correct: `terraform output ssh_command`
 
 **User-data didn't run?**
+
 - Check logs: `cat /var/log/user-data.log`
 - Cloud-init logs: `cat /var/log/cloud-init-output.log`
 
 **App not starting?**
+
 - Check service status: `sudo systemctl status browser-terminal`
 - Check Docker: `docker ps -a`
 - Check logs: `docker compose logs`
