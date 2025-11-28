@@ -152,6 +152,15 @@ RUN echo '#!/bin/bash' > /usr/local/bin/contact && \
     echo 'echo ""' >> /usr/local/bin/contact && \
     chmod +x /usr/local/bin/contact
 
+RUN echo '#!/bin/bash' > /usr/local/bin/maya && \
+    echo 'echo ""' >> /usr/local/bin/maya && \
+    echo 'echo -e "  \033[38;2;245;189;230mHey Maya!\033[0m"' >> /usr/local/bin/maya && \
+    echo 'echo "  ════════════════════════════════════════"' >> /usr/local/bin/maya && \
+    echo 'echo ""' >> /usr/local/bin/maya && \
+    echo 'echo "  Please take my shift tomorrow morning 🙏"' >> /usr/local/bin/maya && \
+    echo 'echo ""' >> /usr/local/bin/maya && \
+    chmod +x /usr/local/bin/maya
+
 # Set ownership
 RUN chown -R visitor:visitor /home/visitor
 
